@@ -1,0 +1,22 @@
+#### .gitignore for android
+*.iml
+.gradle
+.idea
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+.irb-history
+build
+
+app/production/release
+app/staging/release
+
+/app/build
+/app-dev-companion/build
+
+# ignore pod spec for now
+*.podspec
+
+# ignore zulu jdk
+.jdk

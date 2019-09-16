@@ -1,0 +1,65 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-multiplatform'
+apply plugin: 'kotlin-android-extensions'
+
+sourceCompatibility = jvm_target
+targetCompatibility = jvm_target
+archivesBaseName = 'Common'
+version = library_version
+
+android {
+    compileSdkVersion android_compile_sdk_version as int
+
+    defaultConfig {
+        minSdkVersion android_min_sdk_version as int
+        targetSdkVersion android_target_sdk_version as int
+        versionCode version_code as int
+        versionName library_version
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+
+    sourceSets {
+        main {
+            manifest.srcFile 'src/androidMain/AndroidManifest.xml'
+            java.srcDirs += ['src/androidMain/kotlin']
+            res.srcDirs += ['src/androidMain/res']
+        }
+    }
+}
+
+kotlin {
+    targets {
+        fromPreset(presets.android, 'android')
+    }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
+                implementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
+            }
+        }
+        androidMain {
+            dependsOn commonMain
+
+            dependencies {
+                implementation fileTree(dir: 'libs', include: ['*.jar'])
+                implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+                api project(':flutter')
+
+            }
+
+        }
+    }
+}
+
+configurations {
+    compileClasspath
+}

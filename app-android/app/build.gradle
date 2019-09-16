@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlinx-serialization'
+
+
+android {
+    packagingOptions {
+        exclude 'META-INF/kotlinx-coroutines-core.kotlin_module'
+        exclude 'META-INF/kotlinx-serialization-runtime.kotlin_module'
+    }
+
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+
+    compileSdkVersion android_compile_sdk_version as int
+
+    compileOptions {
+        sourceCompatibility jvm_target
+        targetCompatibility jvm_target
+    }
+
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        applicationId main_application_id.toString()
+        minSdkVersion android_min_sdk_version as int
+        targetSdkVersion android_target_sdk_version as int
+        versionCode version_code as int
+        versionName version_name
+        vectorDrawables.useSupportLibrary = true
+    }
+
+}
+
+dependencies {
+    implementation(project(':Common'))
+    implementation project(':flutter')
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$androidx_lifecycle_version"
+
+}
+
+tasks.withType(JavaCompile) {
+    options.fork = true
+}
+

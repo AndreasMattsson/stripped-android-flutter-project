@@ -1,0 +1,20 @@
+rootProject.name = 'flutter-test'
+
+include ':app'
+project(':app').projectDir = file('app-android/app')
+
+include ':Common'
+project(':Common').projectDir = file('app-common/lib-common')
+
+setBinding(new Binding([gradle: this]))
+evaluate(new File(
+	settingsDir,
+	"$flutter_app_dir/.android/include_flutter.groovy"
+))
+
+include ':app-common'
+project(':app-common').projectDir = file('app-android/app-common')
+
+enableFeaturePreview('GRADLE_METADATA')
+
+apply from: "resolve_flutter_dir.groovy"
